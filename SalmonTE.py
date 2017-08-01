@@ -63,7 +63,7 @@ def collect_FASTQ_files(FILE):
                 logging.error("Failed to read {}".format(file))
                 sys.exit(1)
 
-        fastq_files |= set(collected_files)
+        fastq_files |= set([os.path.abspath(file) for file in collected_files])
 
     tmp_dir = tempfile.mkdtemp()
 
@@ -80,8 +80,12 @@ def collect_FASTQ_files(FILE):
     is_paired = True
     for file in paired:
         if len(paired[file]) == 1: is_paired = True
-        elif len(paired[file]) > 1: 
+        elif len(paired[file]) == 0: is_paired = False
+        elif is_paired and len(paired[file]) > 1:
             logging.error("One of files can be paired to multiple files")
+            sys.exit(1)
+        elif not is_paired and len(paired[file]) > 0:
+            logging.error("The pair should not exists")
             sys.exit(1)
 
     if is_paired:
@@ -100,17 +104,17 @@ def collect_FASTQ_files(FILE):
             os.symlink(os.path.abspath(a), os.path.join(tmp_dir, trim_a))
             os.symlink(os.path.abspath(b), os.path.join(tmp_dir, trim_b))
     else:
-        for file in sorted(fastq_file):
+        for file in sorted(fastq_files):
             logging.info("The input dataset is considered as a single-end dataset.")
             os.symlink(os.path.abspath(file), os.path.join(tmp_dir, get_basename_noext(file)))
 
     ret = dict()
     ret["paired"] = is_paired
     ret["inpath"] = tmp_dir
-    ret["num_fastq"] = len(fastq_files) / (is_paired*2)
+    ret["num_fastq"] = int(len(fastq_files) / (is_paired*2)) if is_paired else len(fastq_files)
     return ret
 
-def SalmonTE(args):
+def run(args):
     if args['quant']:
         print(args)
         logging.info("Starting quantification mode")
@@ -123,4 +127,4 @@ if __name__ == '__main__':
     logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
 
     args = docopt(__doc__, version='SalmonTE 0.1')
-    SalmonTE(args)
+    run(args)

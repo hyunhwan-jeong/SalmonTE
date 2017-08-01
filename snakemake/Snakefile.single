@@ -1,0 +1,16 @@
+SAMPLES, = glob_wildcards("/mnt/hdd/hwan/encode/merged/{sample}_R1.fastq")
+INDEX = "repbase_hs"
+
+rule all:
+	input:
+		expand("quant/encode_salmon/{sample}/", sample=SAMPLES)
+
+rule align:
+	input:
+		r1="/mnt/hdd/hwan/encode/merged/{sample}_R1.fastq",
+		r2="/mnt/hdd/hwan/encode/merged/{sample}_R2.fastq",
+		idx = INDEX
+	output:
+		"quant/encode_salmon/{sample}/"
+	shell:
+		"salmon quant -l A -1 {input.r1} -2 {input.r2} -o {output} -i repbase_hs -p 16"

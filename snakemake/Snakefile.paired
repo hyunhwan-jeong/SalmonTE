@@ -1,0 +1,16 @@
+SAMPLES, = glob_wildcards("dm-tdp43/{sample}_1.fastq")
+INDEX = "dm3_genome"
+
+rule all:
+	input:
+		expand("quant/dm-tdp43/{sample}/", sample=SAMPLES)
+
+rule align:
+	input:
+		r1="dm-tdp43/{sample}_1.fastq",
+		r2="dm-tdp43/{sample}_2.fastq",
+		idx = INDEX
+	output:
+		"quant/dm-tdp43/{sample}/"
+	shell:
+		"STAR --runThreadN 16 --genomeDir {input.idx} --readFilesIn {input.r1} {input.r2} --outFilterMultimapNmax 100 -–winAnchorMultimapNmax 100 --outFileNamePrefix {output}"

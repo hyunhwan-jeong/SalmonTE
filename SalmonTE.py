@@ -2,8 +2,8 @@
 """SalmonTE - Ultra-Fast and Scalable Quantification Pipeline of Transcript Abundances from Next Generation Sequencing Data
 
 Usage:
-    SalmonTE.py quant [--reference=genome] [--outpath=outpath] FILE...
-    SalmonTE.py test [--pheno=type] [--mednorm] [--inpath=inpath] [--outpath=outpath]
+    SalmonTE.py quant [--reference=genome] [--outpath=outpath] [--num_threads=numthreads] FILE...
+    SalmonTE.py test [--pheno=type] [--inpath=inpath] [--outpath=outpath] [--tabletype=tabletype] [--figtype=figtype]
     SalmonTE.py (-h | --help)
     SalmonTE.py --version
 
@@ -88,6 +88,7 @@ def collect_FASTQ_files(FILE):
             logging.error("The pair should not exists")
             sys.exit(1)
 
+    file_list = []
     if is_paired:
         for file, matched in paired.items():
             if len(matched) == 0:
@@ -103,28 +104,62 @@ def collect_FASTQ_files(FILE):
             trim_b = "_".join(get_basename_noext(b).split("_")[:-1]) + "_R2." + ".".join(os.path.basename(b).split('.')[1:])
             os.symlink(os.path.abspath(a), os.path.join(tmp_dir, trim_a))
             os.symlink(os.path.abspath(b), os.path.join(tmp_dir, trim_b))
+            file_list.append([(trim_a, trim_b)])
     else:
         for file in sorted(fastq_files):
             logging.info("The input dataset is considered as a single-end dataset.")
-            os.symlink(os.path.abspath(file), os.path.join(tmp_dir, get_basename_noext(file)))
+            file_name = os.path.join(tmp_dir, get_basename_noext(file))
+            os.symlink(os.path.abspath(file), file_name)
+            file_list.append(os.path.basename(file))
 
     ret = dict()
     ret["paired"] = is_paired
     ret["inpath"] = tmp_dir
     ret["num_fastq"] = int(len(fastq_files) / (is_paired*2)) if is_paired else len(fastq_files)
+    ret["file_list"] = file_list
     return ret
+
+def run_salmon(param):
+    import snakemake
+    snakefile = os.path.join(os.path.dirname(__file__), "snakemake/Snakefile.paired" if param["paired"] else "snakemake/Snakefile.single")
+
+    snakemake.snakemake(
+        snakefile=snakefile,
+        config={
+            "input_path": param["inpath"],
+            "output_path": param["--outpath"],
+            "index": param["--reference"],
+            "salmon": os.path.join(os.path.dirname(__file__),"salmon/{}/bin/salmon"),
+            "num_threads" : param["--num_threads"]
+        }
+    )
+
+    with open(os.path.join(param["--outpath"], "TPM.csv" ), "r") as inp:
+        sample_ids = inp.readline().strip().split()
+    with open(os.path.join(param["--outpath"], "phenotype.csv" ), "w") as oup:
+        oup.write("SampleID,phenotype\n")
+        oup.write(
+            "\n".join([s+","+"NA" for s in sample_ids])
+        )
 
 def run(args):
     if args['quant']:
-        print(args)
+        if args['--num_threads'] is None:
+            args['--num_threads'] = 4
+        if args['--outpath'] is None:
+            args['--outpath'] = os.path.join(os.getcwd(), "SalmonTE_output/")
+
         logging.info("Starting quantification mode")
         logging.info("Collecting FASTQ files...")
-        inp_param = collect_FASTQ_files(args['FILE'])
-        logging.info("Collectd {} FASTQ files.".format(inp_param["num_fastq"]))
+        param = {**args, **collect_FASTQ_files(args['FILE'])}
+        logging.info("Collectd {} FASTQ files.".format(param["num_fastq"]))
         logging.info("Quantification has been finished.")
+        logging.info("Running Salmon using Snakemake")
+
+        run_salmon(param)
+
 
 if __name__ == '__main__':
     logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
-
     args = docopt(__doc__, version='SalmonTE 0.1')
     run(args)

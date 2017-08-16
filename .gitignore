@@ -2,3 +2,6 @@
 SalmonTE_output/
 .idea/
 packrat/lib*/
+.Rhistory
+.Rprofile
+packrat/

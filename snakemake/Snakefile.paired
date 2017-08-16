@@ -53,4 +53,4 @@ rule collect_tpm:
 
         import pandas as pd
         with open(str(output), "w") as oup:
-            oup.write(pd.DataFrame(tb).to_csv(sep="\t"))
+            oup.write(pd.DataFrame(tb).to_csv(sep=",", index_label="TE"))

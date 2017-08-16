@@ -1,3 +1,4 @@
 .snakemake/
 SalmonTE_output/
 .idea/
+packrat/lib*/

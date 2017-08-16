@@ -135,7 +135,7 @@ def run_salmon(param):
     )
 
     with open(os.path.join(param["--outpath"], "TPM.csv" ), "r") as inp:
-        sample_ids = inp.readline().strip().split()
+        sample_ids = inp.readline().strip().split(',')[1:]
     with open(os.path.join(param["--outpath"], "phenotype.csv" ), "w") as oup:
         oup.write("SampleID,phenotype\n")
         oup.write(
@@ -157,6 +157,7 @@ def run(args):
         logging.info("Running Salmon using Snakemake")
 
         run_salmon(param)
+
 
 
 if __name__ == '__main__':

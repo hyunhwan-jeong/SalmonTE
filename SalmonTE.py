@@ -3,7 +3,7 @@
 
 Usage:
     SalmonTE.py quant [--reference=genome] [--outpath=outpath] [--num_threads=numthreads] FILE...
-    SalmonTE.py test [--pheno=type] [--inpath=inpath] [--outpath=outpath] [--tabletype=tabletype] [--figtype=figtype]
+    SalmonTE.py test [--inpath=inpath] [--outpath=outpath] [--tabletype=tabletype] [--figtype=figtype]
     SalmonTE.py (-h | --help)
     SalmonTE.py --version
 
@@ -139,7 +139,7 @@ def run_salmon(param):
     with open(os.path.join(param["--outpath"], "phenotype.csv" ), "w") as oup:
         oup.write("SampleID,phenotype\n")
         oup.write(
-            "\n".join([s+","+"NA" for s in sample_ids])
+            "\n".join([s+","+"NA" for s in sample_ids]) + "\n"
         )
 
 def run(args):
@@ -148,15 +148,54 @@ def run(args):
             args['--num_threads'] = 4
         if args['--outpath'] is None:
             args['--outpath'] = os.path.join(os.getcwd(), "SalmonTE_output/")
+        if args['--reference'] is None or args['--reference'] == "hs":
+            args['--reference'] = os.path.join(os.path.dirname(__file__), "reference/hs")
+        elif args['--reference'] == "dm":
+            args['--reference'] = os.path.join(os.path.dirname(__file__), "reference/dm")
+        elif not os.path.exists(os.path.join(args['--reference'],"versionInfo.json")):
+            logging.error("Reference file is not found!")
+            sys.exit(1)
+
 
         logging.info("Starting quantification mode")
         logging.info("Collecting FASTQ files...")
         param = {**args, **collect_FASTQ_files(args['FILE'])}
-        logging.info("Collectd {} FASTQ files.".format(param["num_fastq"]))
+        logging.info("Collected {} FASTQ files.".format(param["num_fastq"]))
         logging.info("Quantification has been finished.")
         logging.info("Running Salmon using Snakemake")
 
         run_salmon(param)
+        os.system("cp {}/clades.csv {}".format(args['--reference'],
+                                               args['--outpath']))
+
+    if args['test']:
+        import snakemake
+        if args['--inpath'] is None:
+            logging.error("Input path must be specified!")
+            sys.exit(1)
+        elif not os.path.exists(os.path.join(args['--inpath'], "TPM.csv")):
+            logging.error("Input path is specified incorrectly!")
+            sys.exit(1)
+
+        if args['--outpath'] is None:
+            snakemake.utils.makedirs(os.path.join(os.getcwd(), "SalmonTE_output"))
+        elif not os.path.exists(args['--outpath']):
+            snakemake.utils.makedirs(args['--outpath'])
+
+        if args['--tabletype'] is None:
+            args['--tabletype'] = "xls"
+
+        if args['--figtype'] is None:
+            args['--figtype'] = "pdf"
+
+
+        #  Rscript SalmonTE_Stats.R SalmonTE_output xls PDF tmp
+        os.system("Rscript {} {} {} {} {}".format( os.path.join(os.path.dirname(__file__), "SalmonTE_Stats.R"),
+                                        args["--inpath"],
+                                        args['--tabletype'],
+                                        args['--figtype'],
+                                        args['--outpath']))
+
 
 
 

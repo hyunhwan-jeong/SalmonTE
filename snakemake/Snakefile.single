@@ -38,9 +38,9 @@ rule collect_tpm:
                 line = inp.readline()
                 for line in inp:
                     line = line.strip().split()
-                    name = "_".join(line[0].split("_")[:-1])
-                    if len(name) == 0:
-                        name = line[0]
+                    #name = "_".join(line[0].split("_")[:-1])
+                    #if len(name) == 0:
+                    name = line[0]
                     tpm[name] += float(line[3])
 
             return tpm

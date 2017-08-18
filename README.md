@@ -16,6 +16,21 @@ Options:
     --version     Show version.
 ```
 
+# How to install
+
+* Clone the repository 
+
+```
+git clone https://github.com/hyunhwaj/SalmonTE
+```
+
+* Add `PATH` of SalmonTE to your `rc` file like:
+
+```
+export PATH=$PATH:/PATH_OF_SALMON_TE/
+```
+
+
 # What you need to run SalmonTE?
 
 * You only need to have a set of FASTQ files and phenotype data

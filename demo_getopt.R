@@ -1,4 +1,6 @@
 #!/usr/local/bin/Rscript
+# example to use "./demo_getopt.R -v 1 -m 4"
+# it is an random number generator
 
 library('getopt');
 #get options, using the spec as defined by the enclosed list.

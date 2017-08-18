@@ -24,10 +24,16 @@ Options:
 git clone https://github.com/hyunhwaj/SalmonTE
 ```
 
-* Add `PATH` of SalmonTE to your `rc` file like:
+* Add `PATH` of SalmonTE to your `.bashrc` file:
 
 ```
 export PATH=$PATH:/PATH_OF_SALMON_TE/
+```
+
+* Re log-in to terminal or use `source` command:
+
+```
+source ~/.bashrc
 ```
 
 

@@ -1,6 +1,6 @@
 # What is SalmonTE?
 
-SalmonTE is an ultra-Fast and Scalable Quantification Pipeline of Transpose Element (TE) Abundances from Next Generation Sequencing Data
+SalmonTE is an ultra-Fast and Scalable Quantification Pipeline of Transpose Element (TE) Abundances from Next Generation Sequencing Data. It comes with (Salmon)[https://github.com/COMBINE-lab/salmon] which is a fast and accurate transcriptome quantification method.
 
 # How to use it?
 

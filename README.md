@@ -1,6 +1,6 @@
 # What is SalmonTE?
 
-SalmonTE is an ultra-Fast and Scalable Quantification Pipeline of Transpose Element (TE) Abundances from Next Generation Sequencing Data
+SalmonTE is an ultra-Fast and Scalable Quantification Pipeline of Transpose Element (TE) Abundances from Next Generation Sequencing Data. It comes with [Salmon](https://github.com/COMBINE-lab/salmon) which is a fast and accurate transcriptome quantification method.
 
 # How to use it?
 
@@ -15,6 +15,27 @@ Options:
     -h --help     Show this screen.
     --version     Show version.
 ```
+
+# How to install
+
+* Clone the repository 
+
+```
+git clone https://github.com/hyunhwaj/SalmonTE
+```
+
+* Add `PATH` of SalmonTE to your `.bashrc` file:
+
+```
+export PATH=$PATH:/PATH_OF_SALMON_TE/
+```
+
+* Re log-in to terminal or use `source` command:
+
+```
+source ~/.bashrc
+```
+
 
 # What you need to run SalmonTE?
 

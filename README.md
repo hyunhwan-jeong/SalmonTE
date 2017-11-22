@@ -72,3 +72,22 @@ SalmonTE.py quant --reference=hs example
 vi SalmonTE_output/phenotype.csv 
 SalmonTE.py --inpath=SalmonTE_output --outpath=tmp --tabletype=csv --figtype=png
 ```
+
+## How to Cite?
+
+```
+@inbook{doi:10.1142/9789813235533_0016,
+author = {Hyun-Hwan Jeong and Hari Krishna Yalamanchili and Caiwei Guo and Joshua M. Shulman and Zhandong Liu},
+title = {An ultra-fast and scalable quantification pipeline for transposable elements from next generation sequencing data},
+booktitle = {Biocomputing 2018},
+chapter = {},
+pages = {168-179},
+doi = {10.1142/9789813235533_0016},
+URL = {http://www.worldscientific.com/doi/abs/10.1142/9789813235533_0016},
+eprint = {http://www.worldscientific.com/doi/pdf/10.1142/9789813235533_0016}
+publisher = WORLD SCIENTIFIC
+address = 
+year = 2017
+edition = 
+}
+```

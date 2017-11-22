@@ -1,4 +1,3 @@
-#setwd("~/Sandbox/SalmonTE/")
 library(tidyverse)
 library(DESeq2)
 library(tximport)
@@ -142,7 +141,7 @@ GenerateOutput <- function(dat) {
 
 args <- commandArgs(T)
 
-tpm <- read.csv(file.path(args[1], "TPM.csv"), row.names="TE")
+tpm <- read.csv(file.path(args[1], "EXPR.csv"), row.names="TE")
 phenoData <- read.csv(file.path(args[1], "phenotype.csv"), 
                       row.names = "SampleID")
 annotation <- read.csv(file.path(args[1], "clades.csv"))

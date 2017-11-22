@@ -2,7 +2,7 @@
 """SalmonTE - Ultra-Fast and Scalable Quantification Pipeline of Transcript Abundances from Next Generation Sequencing Data
 
 Usage:
-    SalmonTE.py quant [--reference=genome] [--outpath=outpath] [--num_threads=numthreads] FILE...
+    SalmonTE.py quant [--reference=genome] [--outpath=outpath] [--num_threads=numthreads] [--exprtype=exprtype] FILE...
     SalmonTE.py test [--inpath=inpath] [--outpath=outpath] [--tabletype=tabletype] [--figtype=figtype]
     SalmonTE.py (-h | --help)
     SalmonTE.py --version
@@ -130,11 +130,12 @@ def run_salmon(param):
             "output_path": param["--outpath"],
             "index": param["--reference"],
             "salmon": os.path.join(os.path.dirname(__file__),"salmon/{}/bin/salmon"),
-            "num_threads" : param["--num_threads"]
+            "num_threads" : param["--num_threads"], 
+            "exprtype": param["--exprtype"]
         }
     )
 
-    with open(os.path.join(param["--outpath"], "TPM.csv" ), "r") as inp:
+    with open(os.path.join(param["--outpath"], "EXPR.csv" ), "r") as inp:
         sample_ids = inp.readline().strip().split(',')[1:]
     with open(os.path.join(param["--outpath"], "phenotype.csv" ), "w") as oup:
         oup.write("SampleID,phenotype\n")
@@ -144,6 +145,8 @@ def run_salmon(param):
 
 def run(args):
     if args['quant']:
+        if args['--exprtype'] is None: 
+            args['--exprtype'] = "TPM"
         if args['--num_threads'] is None:
             args['--num_threads'] = 4
         if args['--outpath'] is None:
@@ -173,7 +176,7 @@ def run(args):
         if args['--inpath'] is None:
             logging.error("Input path must be specified!")
             sys.exit(1)
-        elif not os.path.exists(os.path.join(args['--inpath'], "TPM.csv")):
+        elif not os.path.exists(os.path.join(args['--inpath'], "EXPR.csv")):
             logging.error("Input path is specified incorrectly!")
             sys.exit(1)
 

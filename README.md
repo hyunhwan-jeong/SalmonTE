@@ -1,18 +1,15 @@
-# Change Logs
+## Change Logs
 * Version 0.2: Support two different type of expressions with `--exprtype` option 
 
-# What is SalmonTE?
-
+## What is SalmonTE?
 `SalmonTE` is an ultra-Fast and Scalable Quantification Pipeline of Transpose Element (TE) Abundances from Next Generation Sequencing Data. It comes with [Salmon](https://github.com/COMBINE-lab/salmon) which is a fast and accurate transcriptome quantification method. You can read the details of the pipeline and an example of real data study in [my recent publisehd paper in PSB 2018](http://www.worldscientific.com/doi/10.1142/9789813235533_0016).
 
-# Which data you need to run `SalmonTE`? Why I have to use it?
-
+## Which data you need to run `SalmonTE`? Why I have to use it?
 * You only need to have a set of FASTQ files and phenotype data. Furthermore, **`SalmonTE` automatically decided wether your dataset is paired-ends reads or not.** 
 * phenotype can be a numeric data or a categorical data. Based on the data type of the phenotype, **`SalmonTE` will run differential expression analysis if user's input contains 'control' or 'case' string as the phenotype**. Otherwise, `SalmonTE` will run `LM` for the data.
 * Unlikely other TE analysis tools, `SalmonTE` gives you various visualized output. It must be helpful to your research.
 
-# Requirements & Installation
-
+## Requirements & Installation
 To use `SalmonTE` `python` and `R` must be installed before running it.
 
 * **Note**: Currently, running `SalmonTE` on MacOS has an issue, and we are try to fix it soon. Thus, we recommend to use `linux` environment to play it.
@@ -54,7 +51,7 @@ export PATH=$PATH:/PATH_OF_SALMON_TE/
 source ~/.bashrc
 ```
 
-# How to use it?
+## How to use it?
 
 ```
 Usage:
@@ -68,8 +65,7 @@ Options:
     --version     Show version.
 ```
 
-# An real example of SalmonTE usage with command line 
-
+## An real example of SalmonTE usage with command line 
 ```
 SalmonTE.py quant --reference=hs example
 # Prior to run statistical analysis, open `phenotype.csv` and put your phenotype/covariate data.

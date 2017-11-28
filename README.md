@@ -1,5 +1,5 @@
 ## Change Logs
-* November 27, 2017: source code of PSB manuscript is out now - [manuscript](https://github.com/hyunhwaj/SalmonTE-manuscript/) and [response](https://github.com/hyunhwaj/SalmonTE-response).
+* November 27, 2017: source code of PSB manuscript is out now - our [manuscript](https://github.com/hyunhwaj/SalmonTE-manuscript/) and [response letter](https://github.com/hyunhwaj/SalmonTE-response).
 
 * November 21, 2017: Version 0.2 is out, `SalmonTE` now supports two different type of expressions with `--exprtype` option. Use `--exprtype=TPM` if you want to use TPM values for the statistical analysis. If you want to run differential expression analysis, then I highly recommend to use `--exprtype=count`. [Here is the nice answer why](https://support.bioconductor.org/p/98820/).
 

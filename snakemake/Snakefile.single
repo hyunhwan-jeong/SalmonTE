@@ -6,13 +6,13 @@ INPUT_DIR = config["input_path"]
 OUTPUT_DIR = config["output_path"]
 SALMON_PATH = config["salmon"].format(sys.platform)
 NUM_THREADS = str(config["num_threads"])
-COUNT = config["count"]
+EXPR_TYPE = config["exprtype"]
 SAMPLES = glob_wildcards(join(INPUT_DIR, "{sample}.fastq")).sample
 
 
 rule all:
     input:
-        join(OUTPUT_DIR,"te_abundance.csv")
+        join(OUTPUT_DIR,"EXPR.csv")
 
 rule run_salmon:
     input:
@@ -30,7 +30,7 @@ rule collect_abundance:
     input:
         expand(join(OUTPUT_DIR,"{sample}"), sample=SAMPLES)
     output:
-        join(OUTPUT_DIR,"te_abundance.csv")
+        join(OUTPUT_DIR,"EXPR.csv")
     run:
         def get_abundance(fname):
             from collections import defaultdict
@@ -39,10 +39,8 @@ rule collect_abundance:
                 line = inp.readline()
                 for line in inp:
                     line = line.strip().split()
-                    #name = "_".join(line[0].split("_")[:-1])
-                    #if len(name) == 0:
                     name = line[0]
-                    abundance[name] += float(line[3]) if COUNT is "TPM" else float(line[-1])
+                    abundance[name] += float(line[3]) if EXPR_TYPE is "TPM" else float(line[-1])
 
             return abundance
 

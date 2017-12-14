@@ -73,10 +73,10 @@ Options:
 
 ## An real example of SalmonTE usage with command line 
 ```
-./SalmonTE.py quant --reference=hs example
+SalmonTE.py quant --reference=hs example
 # Prior to run statistical analysis, open `phenotype.csv` and put your phenotype/covariate data.
 vi SalmonTE_output/phenotype.csv 
-./SalmonTE.py --inpath=SalmonTE_output --outpath=tmp --tabletype=csv --figtype=png
+SalmonTE.py --inpath=SalmonTE_output --outpath=tmp --tabletype=csv --figtype=png
 ```
 
 ## How to Cite?

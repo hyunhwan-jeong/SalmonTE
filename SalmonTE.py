@@ -130,22 +130,12 @@ def run_salmon(param):
             "output_path": param["--outpath"],
             "index": param["--reference"],
             "salmon": os.path.join(os.path.dirname(__file__),"salmon/{}/bin/salmon"),
-<<<<<<< HEAD
-            "num_threads" : param["--num_threads"],
-            "count": param["--count"]
-        },
-        targets = ["collect_abundance"]
-    )
-
-    with open(os.path.join(param["--outpath"], "te_abundance.csv" ), "r") as inp:
-=======
-            "num_threads" : param["--num_threads"],
+            "num_threads" : param["--num_threads"], 
             "exprtype": param["--exprtype"]
         }
     )
 
     with open(os.path.join(param["--outpath"], "EXPR.csv" ), "r") as inp:
->>>>>>> 407c9cd22d22b21ef0ba6220200620456557557c
         sample_ids = inp.readline().strip().split(',')[1:]
     with open(os.path.join(param["--outpath"], "phenotype.csv" ), "w") as oup:
         oup.write("SampleID,phenotype\n")
@@ -155,13 +145,8 @@ def run_salmon(param):
 
 def run(args):
     if args['quant']:
-<<<<<<< HEAD
-        if args['--count'] is None:
-            args['--count'] = 'TPM'
-=======
-        if args['--exprtype'] is None:
+        if args['--exprtype'] is None: 
             args['--exprtype'] = "TPM"
->>>>>>> 407c9cd22d22b21ef0ba6220200620456557557c
         if args['--num_threads'] is None:
             args['--num_threads'] = 4
         if args['--outpath'] is None:
@@ -191,11 +176,7 @@ def run(args):
         if args['--inpath'] is None:
             logging.error("Input path must be specified!")
             sys.exit(1)
-<<<<<<< HEAD
-        elif not os.path.exists(os.path.join(args['--inpath'], "te_abundance.csv")):
-=======
         elif not os.path.exists(os.path.join(args['--inpath'], "EXPR.csv")):
->>>>>>> 407c9cd22d22b21ef0ba6220200620456557557c
             logging.error("Input path is specified incorrectly!")
             sys.exit(1)
 
@@ -223,5 +204,5 @@ def run(args):
 
 if __name__ == '__main__':
     logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
-    args = docopt(__doc__, version='SalmonTE 0.2')
+    args = docopt(__doc__, version='SalmonTE 0.1')
     run(args)

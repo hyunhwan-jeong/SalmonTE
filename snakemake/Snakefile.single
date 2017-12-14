@@ -6,12 +6,13 @@ INPUT_DIR = config["input_path"]
 OUTPUT_DIR = config["output_path"]
 SALMON_PATH = config["salmon"].format(sys.platform)
 NUM_THREADS = str(config["num_threads"])
+COUNT = config["count"]
 SAMPLES = glob_wildcards(join(INPUT_DIR, "{sample}.fastq")).sample
 
 
 rule all:
     input:
-        join(OUTPUT_DIR,"TPM.csv")
+        join(OUTPUT_DIR,"te_abundance.csv")
 
 rule run_salmon:
     input:
@@ -25,15 +26,15 @@ rule run_salmon:
         SALMON_PATH + " quant -i {input.idx} -l A -r {input.r} -o {output} -p " + NUM_THREADS
 
 
-rule collect_tpm:
+rule collect_abundance:
     input:
         expand(join(OUTPUT_DIR,"{sample}"), sample=SAMPLES)
     output:
-        join(OUTPUT_DIR,"TPM.csv")
+        join(OUTPUT_DIR,"te_abundance.csv")
     run:
-        def get_tpm(fname):
+        def get_abundance(fname):
             from collections import defaultdict
-            tpm = defaultdict( float )
+            abundance = defaultdict( float )
             with open(fname, "r") as inp:
                 line = inp.readline()
                 for line in inp:
@@ -41,15 +42,15 @@ rule collect_tpm:
                     #name = "_".join(line[0].split("_")[:-1])
                     #if len(name) == 0:
                     name = line[0]
-                    tpm[name] += float(line[3])
+                    abundance[name] += float(line[3]) if COUNT is "TPM" else float(line[-1])
 
-            return tpm
+            return abundance
 
         tb = dict()
         for file in input:
             file = join(file, "quant.sf")
             sid = file.split("/")[-2]
-            tb[sid] = get_tpm(file) 
+            tb[sid] = get_abundance(file)
 
         import pandas as pd
         with open(str(output), "w") as oup:

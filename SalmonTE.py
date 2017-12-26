@@ -108,7 +108,7 @@ def collect_FASTQ_files(FILE):
     else:
         for file in sorted(fastq_files):
             logging.info("The input dataset is considered as a single-end dataset.")
-            file_name = os.path.join(tmp_dir, get_basename_noext(file))
+            file_name = os.path.join(tmp_dir, get_basename_noext(file)) + "." + ".".join(os.path.basename(file).split('.')[1:])
             os.symlink(os.path.abspath(file), file_name)
             file_list.append(os.path.basename(file))
 
@@ -130,7 +130,7 @@ def run_salmon(param):
             "output_path": param["--outpath"],
             "index": param["--reference"],
             "salmon": os.path.join(os.path.dirname(__file__),"salmon/{}/bin/salmon"),
-            "num_threads" : param["--num_threads"], 
+            "num_threads" : param["--num_threads"],
             "exprtype": param["--exprtype"]
         }
     )
@@ -145,7 +145,7 @@ def run_salmon(param):
 
 def run(args):
     if args['quant']:
-        if args['--exprtype'] is None: 
+        if args['--exprtype'] is None:
             args['--exprtype'] = "TPM"
         if args['--num_threads'] is None:
             args['--num_threads'] = 4
@@ -204,5 +204,5 @@ def run(args):
 
 if __name__ == '__main__':
     logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
-    args = docopt(__doc__, version='SalmonTE 0.1')
+    args = docopt(__doc__, version='SalmonTE 0.2')
     run(args)

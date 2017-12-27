@@ -1,7 +1,8 @@
 ## Change Logs
+* December 25, 2017: Fixed a bug for single-end reads dataset.
+
 * December 14, 2017: Fixed issue of the `macOS`. We have figured out there is a problem of old version of `snakemake`. If you already install the package, and the version is not above `4.0.0` (You can check it with `snakemake --version`) then please update version with below command:
 `pip3 install snakemake --user --upgrade`
-
 
 * November 27, 2017: source code of PSB manuscript is out now - our [manuscript](https://github.com/hyunhwaj/SalmonTE-manuscript/) and [response letter](https://github.com/hyunhwaj/SalmonTE-response).
 
@@ -56,6 +57,23 @@ export PATH=$PATH:/PATH_OF_SALMON_TE/
 ```
 source ~/.bashrc
 ```
+
+### Troubleshooting
+
+**Q. I am using `SalmonTE` on `macOS` and `salmonTE` fails to run on `quant` mode with error messages:**
+
+```
+CalledProcessError in line xx of SOME_PATH:
+Command ' set -euo pipefail;  ROOT_OF_SALMON_TE/SalmonTE/salmon/darwin/bin/salmon quant...' returned non-zero exit status 134.
+```
+
+**A.** You may have a problem to run `salmon` which is an essential tool for the pipeline. You may install [Threading Building Blocks library](https://www.threadingbuildingblocks.org/download) to solve the problem. If you are using [homebrew](https://brew.sh) then please use below command:
+
+```
+brew install tbb
+```
+
+
 
 ## How to use it?
 

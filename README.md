@@ -27,7 +27,7 @@ For `python`:
 
 Run following line in your console
 ```
-pip3 install snakemake docopt --user
+pip3 install snakemake docopt pandas --user
 ```
 
 For `R`:

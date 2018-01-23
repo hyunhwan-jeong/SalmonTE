@@ -69,7 +69,7 @@ do.lm <- function(dat) {
 
 do.summary <- function(dat) {
   calc.stat <- function(group) {
-    tmp <- data.frame(group=dat$res[,"clade"], 
+    tmp <- data.frame(group=dat$res[,group], 
                       value=dat$res[,dat$y.name]) 
     colnames(tmp) <- c("group", "value")
     tmp <- tmp %>%

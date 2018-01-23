@@ -6,3 +6,5 @@ packrat/lib*/
 packrat/
 reference/*/*.fa
 venv*/
+__pycache__/
+.idea/**

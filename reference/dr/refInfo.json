@@ -1,5 +1,5 @@
 {
     "ReferenceFiles": [
-        "/Users/hwan/Sandbox/SalmonTE/reference/dr/ref.fa"
+        "./reference/dr/ref.fa"
     ]
 }

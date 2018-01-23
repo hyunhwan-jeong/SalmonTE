@@ -1,4 +1,7 @@
 ## Change Logs
+
+* January 23, 2017: Added references of *Mus musculus*(mm) and *Danio rerio*(dr), added a function users to allow to build a customized index (`index`) mode, and fixed a minor bug.
+
 * December 25, 2017: Fixed a bug for single-end reads dataset.
 
 * December 14, 2017: Fixed issue of the `macOS`. We have figured out there is a problem of old version of `snakemake`. If you already install the package, and the version is not above `4.0.0` (You can check it with `snakemake --version`) then please update version with below command:
@@ -79,6 +82,7 @@ brew install tbb
 
 ```
 Usage:
+    SalmonTE.py index [--ref_name=ref_name] (--input_fasta=fa_file) [--te_only]
     SalmonTE.py quant [--reference=genome] [--outpath=outpath] [--num_threads=numthreads] [--exprtype=exprtype] FILE...
     SalmonTE.py test [--inpath=inpath] [--outpath=outpath] [--tabletype=tabletype] [--figtype=figtype]
     SalmonTE.py (-h | --help)

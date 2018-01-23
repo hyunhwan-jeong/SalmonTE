@@ -144,6 +144,56 @@ def run_salmon(param):
             "\n".join([s+","+"NA" for s in sample_ids]) + "\n"
         )
 
+
+def build_salmon_index(in_fasta, ref_id, te_only):
+    logging.info("Building Salmon Index")
+    if not os.path.exists(in_fasta):
+        logging.error("Input file does not exist.")
+        sys.exit(1)
+    ext = get_ext(in_fasta)
+    if not ext.lower() in [ "fa", "fasta" ]:
+        logging.error("Input file is not a FASTA file.")
+        sys.exit(1)
+    ref_path = os.path.join(os.path.dirname(__file__), "reference")
+    out_path = os.path.join(ref_path, ref_id)
+
+    if not os.path.exists(out_path):
+        os.mkdir(out_path)
+
+    clade_dict = {}
+    with open(os.path.join(ref_path, "clades_extended.csv"), "r") as inp:
+        for line in inp:
+            anno, clade, repeat_class, category = line.strip().split(",")
+            if te_only and category != "Transposable Element": continue
+            clade_dict[anno] = [clade, repeat_class]
+
+
+    file_fa = os.path.join(out_path, "ref.fa")
+    file_clade = os.path.join(out_path, "clades.csv")
+
+    with open(in_fasta, "r") as inp, \
+         open(file_fa, "w") as oup_fa, \
+         open(file_clade, "w") as oup_clade:
+        oup_clade.write("name,class,clade\n")
+        for line in inp:
+            if line.startswith(">"):
+                name, anno = line[1:].strip().split("\t")[:-1]
+                if anno in clade_dict:
+                    clade, repeat_class = clade_dict[anno]
+                    oup_fa.write(">{}\n".format(name))
+                    oup_clade.write("{},{},{}\n".format(name,
+                                                       clade,
+                                                       repeat_class))
+            else:
+                if anno in clade_dict:
+                    oup_fa.write(line.strip()+"\n")
+
+    salmon_bin = os.path.join(os.path.dirname(__file__), "salmon/{}/bin/salmon").format(sys.platform)
+    cmd = "{} index -t {} -i {} --type=quasi".format(salmon_bin, file_fa, out_path)
+    os.system(cmd)
+    logging.info("Building '{}' index was finished!".format(ref_id))
+
+
 def run(args):
     if args['quant']:
         if args['--exprtype'] is None:
@@ -154,9 +204,9 @@ def run(args):
             args['--outpath'] = os.path.join(os.getcwd(), "SalmonTE_output/")
         if args['--reference'] is None or args['--reference'] == "hs":
             args['--reference'] = os.path.join(os.path.dirname(__file__), "reference/hs")
-        elif args['--reference'] == "dm":
-            args['--reference'] = os.path.join(os.path.dirname(__file__), "reference/dm")
-        elif not os.path.exists(os.path.join(args['--reference'],"versionInfo.json")):
+        elif os.path.exists(os.path.join(os.path.dirname(__file__), "reference", args['--reference'],"versionInfo.json")):
+            args['--reference'] = os.path.join(os.path.dirname(__file__), "reference", args['--reference'])
+        else:
             logging.error("Reference file is not found!")
             sys.exit(1)
 
@@ -171,6 +221,9 @@ def run(args):
         run_salmon(param)
         os.system("cp {}/clades.csv {}".format(args['--reference'],
                                                args['--outpath']))
+
+    if args['index']:
+        build_salmon_index(args['--input_fasta'], args['--ref_name'], args['--te_only'])
 
     if args['test']:
         import snakemake

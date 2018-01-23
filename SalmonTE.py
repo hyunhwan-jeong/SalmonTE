@@ -2,6 +2,7 @@
 """SalmonTE - Ultra-Fast and Scalable Quantification Pipeline of Transcript Abundances from Next Generation Sequencing Data
 
 Usage:
+    SalmonTE.py index [--ref_name=ref_name] (--input_fasta=fa_file) [--te_only]
     SalmonTE.py quant [--reference=genome] [--outpath=outpath] [--num_threads=numthreads] [--exprtype=exprtype] FILE...
     SalmonTE.py test [--inpath=inpath] [--outpath=outpath] [--tabletype=tabletype] [--figtype=figtype]
     SalmonTE.py (-h | --help)

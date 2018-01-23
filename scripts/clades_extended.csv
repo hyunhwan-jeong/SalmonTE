@@ -1,0 +1,82 @@
+Mariner/Tc1,Mariner/Tc1,DNA transposon,Transposable Element
+hAT,hAT,DNA transposon,Transposable Element
+MuDR,MuDR,DNA transposon,Transposable Element
+EnSpm/CACTA,EnSpm/CACTA,DNA transposon,Transposable Element
+piggyBac,piggyBac,DNA transposon,Transposable Element
+P,P,DNA transposon,Transposable Element
+Merlin,Merlin,DNA transposon,Transposable Element
+Harbinger,Harbinger,DNA transposon,Transposable Element
+Transib,Transib,DNA transposon,Transposable Element
+Novosib,Novosib,DNA transposon,Transposable Element
+Helitron,Helitron,DNA transposon,Transposable Element
+Polinton,Polinton,DNA transposon,Transposable Element
+Kolobok,Kolobok,DNA transposon,Transposable Element
+ISL2EU,ISL2EU,DNA transposon,Transposable Element
+CryptonA,Crypton,DNA transposon,Transposable Element
+CryptonF,Crypton,DNA transposon,Transposable Element
+CryptonI,Crypton,DNA transposon,Transposable Element
+CryptonS,Crypton,DNA transposon,Transposable Element
+CryptonV,Crypton,DNA transposon,Transposable Element
+Sola1,Sola,DNA transposon,Transposable Element
+Sola2,Sola,DNA transposon,Transposable Element
+Sola3,Sola,DNA transposon,Transposable Element
+Zator,Zator,DNA transposon,Transposable Element
+Ginger1,Ginger1,DNA transposon,Transposable Element
+Ginger2/TDD,Ginger2/TDD,DNA transposon,Transposable Element
+Academ,Academ,DNA transposon,Transposable Element
+Zisupton,Zisupton,DNA transposon,Transposable Element
+IS3EU,IS3EU,DNA transposon,Transposable Element
+Dada,Dada,DNA transposon,Transposable Element
+Gypsy,Gypsy,LTR Retrotransposon,Transposable Element
+Copia,Copia,LTR Retrotransposon,Transposable Element
+BEL,BEL,LTR Retrotransposon,Transposable Element
+DIRS,DIRS,LTR Retrotransposon,Transposable Element
+ERV1,ERV1,Endogenous Retrovirus,Transposable Element
+ERV2,ERV2,Endogenous Retrovirus,Transposable Element
+ERV3,ERV3,Endogenous Retrovirus,Transposable Element
+Lentivirus,Lentivirus,Endogenous Retrovirus,Transposable Element
+ERV4,ERV4,Endogenous Retrovirus,Transposable Element
+SINE1/7SL,SINE,Non-LTR Retrotransposon,Transposable Element
+SINE2/tRNA,SINE,Non-LTR Retrotransposon,Transposable Element
+SINE3/5S,SINE,Non-LTR Retrotransposon,Transposable Element
+SINE4,SINE,Non-LTR Retrotransposon,Transposable Element
+SINEU/snRNA,SINE,Non-LTR Retrotransposon,Transposable Element
+CRE,CRE,Non-LTR Retrotransposon,Transposable Element
+NeSL,NeSL,Non-LTR Retrotransposon,Transposable Element
+R4,R4,Non-LTR Retrotransposon,Transposable Element
+R2,R2,Non-LTR Retrotransposon,Transposable Element
+L1,L1,Non-LTR Retrotransposon,Transposable Element
+RTE,RTE,Non-LTR Retrotransposon,Transposable Element
+I,I,Non-LTR Retrotransposon,Transposable Element
+Jockey,Jockey,Non-LTR Retrotransposon,Transposable Element
+CR1,CR1,Non-LTR Retrotransposon,Transposable Element
+Rex1,Rex1,Non-LTR Retrotransposon,Transposable Element
+RandI,RandI,Non-LTR Retrotransposon,Transposable Element
+Penelope,Penelope,Non-LTR Retrotransposon,Transposable Element
+Tx1,Tx1,Non-LTR Retrotransposon,Transposable Element
+RTEX,RTEX,Non-LTR Retrotransposon,Transposable Element
+Crack,Crack,Non-LTR Retrotransposon,Transposable Element
+Nimb,Nimb,Non-LTR Retrotransposon,Transposable Element
+Proto1,Proto1,Non-LTR Retrotransposon,Transposable Element
+Proto2,Proto2,Non-LTR Retrotransposon,Transposable Element
+RTETP,RTETP,Non-LTR Retrotransposon,Transposable Element
+Hero,Hero,Non-LTR Retrotransposon,Transposable Element
+L2,L2,Non-LTR Retrotransposon,Transposable Element
+Tad1,Tad1,Non-LTR Retrotransposon,Transposable Element
+Loa,Loa,Non-LTR Retrotransposon,Transposable Element
+Ingi,Ingi,Non-LTR Retrotransposon,Transposable Element
+Outcast,Outcast,Non-LTR Retrotransposon,Transposable Element
+R1,R1,Non-LTR Retrotransposon,Transposable Element
+Daphne,Daphne,Non-LTR Retrotransposon,Transposable Element
+L2A,L2A,Non-LTR Retrotransposon,Transposable Element
+L2B,L2B,Non-LTR Retrotransposon,Transposable Element
+Ambal,Ambal,Non-LTR Retrotransposon,Transposable Element
+Vingi,Vingi,Non-LTR Retrotransposon,Transposable Element
+Kiri,Kiri,Non-LTR Retrotransposon,Transposable Element
+SAT,SAT,Satellite,Simple Repeat
+MSAT,MSAT,Satellite,Simple Repeat
+rRNA,rRNA,rRNA,Multicopy gene
+tRNA,tRNA,tRNA,Multicopy gene
+snRNA,snRNA,snRNA,Multicopy gene
+DNA Virus,DNA Virus,DNA Virus,Integrated Virus
+Caulimoviridae,Caulimoviridae,Caulimoviridae,Integrated Virus

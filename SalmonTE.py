@@ -258,5 +258,5 @@ def run(args):
 
 if __name__ == '__main__':
     logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
-    args = docopt(__doc__, version='SalmonTE 0.2')
+    args = docopt(__doc__, version='SalmonTE 0.3')
     run(args)

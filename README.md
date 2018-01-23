@@ -1,6 +1,6 @@
 ## Change Logs
 
-* January 23, 2017: Added references of *Mus musculus*(mm) and *Danio rerio*(dr), added a function users to allow to build a customized index (`index`) mode, and fixed a minor bug.
+* January 23, 2017: Added references of *Mus musculus*(mm) and *Danio rerio*(dr), added a function users to allow to build a customized index (`index` mode), and fixed a minor bug.
 
 * December 25, 2017: Fixed a bug for single-end reads dataset.
 

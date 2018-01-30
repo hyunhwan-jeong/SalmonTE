@@ -19,7 +19,7 @@ import logging
 import sys
 import os
 import tempfile
-
+import gzip
 
 def is_fastq(file_name):
     file_name = file_name.lower()
@@ -44,8 +44,12 @@ def longest_prefix(a, b):
 
 
 def get_first_readid(file_name):
-    with open(file_name, "r") as inp:
-        return inp.readline().split()[0]
+    if file_name.lower().endswith(".gz"):
+        with gzip.open(file_name, "rb") as inp:
+            return inp.readline().split()[0]
+    else:
+        with open(file_name, "r") as inp:
+            return inp.readline().split()[0]
 
 
 def collect_FASTQ_files(FILE):
@@ -70,9 +74,11 @@ def collect_FASTQ_files(FILE):
 
     paired = dict([ (file,set()) for file in fastq_files ])
     for file_a, file_b in combinations(fastq_files, 2):
+        """
         if get_ext(file_a) != get_ext(file_b):
             logging.info("File extensions of all files must be same.")
             sys.exit(1)
+        """
 
         if get_first_readid(file_a) == get_first_readid(file_b):
             paired[file_a].add(file_b)
@@ -80,13 +86,15 @@ def collect_FASTQ_files(FILE):
 
     is_paired = True
     for file in paired:
-        if len(paired[file]) == 1: is_paired = True
-        elif len(paired[file]) == 0: is_paired = False
-        elif is_paired and len(paired[file]) > 1:
-            logging.error("One of files can be paired to multiple files")
+        if len(paired[file]) == 0: is_paired = False
+
+
+    for file in paired:
+        if is_paired and len(paired[file]) > 1:
+            logging.error("One of input files can be paired to multiple files")
             sys.exit(1)
         elif not is_paired and len(paired[file]) > 0:
-            logging.error("The pair should not exists")
+            logging.error("A paired-end sample and a single-end sample are placed together.")
             sys.exit(1)
 
     file_list = []

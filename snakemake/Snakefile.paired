@@ -5,29 +5,44 @@ INPUT_DIR = config["input_path"]
 OUTPUT_DIR = config["output_path"]
 SALMON_PATH = config["salmon"].format(sys.platform)
 NUM_THREADS = str(config["num_threads"])
-SAMPLES = glob_wildcards(join(INPUT_DIR, "{sample}_R1.fastq")).sample
+SAMPLES_FQ = glob_wildcards(join(INPUT_DIR, "{sample}_R1.fastq")).sample
+SAMPLES_GZ = glob_wildcards(join(INPUT_DIR, "{sample}_R1.fastq.gz")).sample
 EXPR_TYPE = config["exprtype"]
+
 
 rule all:
     input:
         join(OUTPUT_DIR,"EXPR.csv")
 
-rule run_salmon:
+rule run_salmon_fq:
     input:
         idx = INDEX,
-        r1 = join(INPUT_DIR,"{sample}_R1.fastq"),
-        r2 = join(INPUT_DIR,"{sample}_R2.fastq")
-    
+        r1 = join(INPUT_DIR, "{sample_fq}_R1.fastq"),
+        r2 = join(INPUT_DIR, "{sample_fq}_R2.fastq")
     output:
-        join(OUTPUT_DIR,"{sample}")
+        join(OUTPUT_DIR,"{sample_fq}")
 
     shell:
         SALMON_PATH + " quant -q -i {input.idx} -l A -1 {input.r1} -2 {input.r2} -o {output} -p " + NUM_THREADS
 
 
+rule run_salmon_gz:
+    input:
+        idx = INDEX,
+        r1 = join(INPUT_DIR, "{sample_gz}_R1.fastq.gz"),
+        r2 = join(INPUT_DIR, "{sample_gz}_R2.fastq.gz")
+    output:
+        join(OUTPUT_DIR,"{sample_gz}")
+
+    shell:
+        SALMON_PATH + " quant -q -i {input.idx} -l A -1 {input.r1} -2 {input.r2} -o {output} -p " + NUM_THREADS
+
+
+
 rule collect_abundance:
     input:
-        expand(join(OUTPUT_DIR,"{sample}"), sample=SAMPLES)
+        expand(join(OUTPUT_DIR,"{sample_fq}"), sample_fq = SAMPLES_FQ) +
+        expand(join(OUTPUT_DIR,"{sample_gz}"), sample_gz = SAMPLES_GZ) 
     output:
         join(OUTPUT_DIR,"EXPR.csv")
     run:

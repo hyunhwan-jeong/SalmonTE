@@ -46,10 +46,10 @@ def longest_prefix(a, b):
 def get_first_readid(file_name):
     if file_name.lower().endswith(".gz"):
         with gzip.open(file_name, "rb") as inp:
-            return inp.readline().split()[0]
+            return inp.readline().decode("utf8").replace("/"," ").split()[0]
     else:
         with open(file_name, "r") as inp:
-            return inp.readline().split()[0]
+            return inp.readline().replace("/"," ").split()[0]
 
 
 def collect_FASTQ_files(FILE):

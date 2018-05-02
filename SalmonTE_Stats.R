@@ -141,7 +141,7 @@ GenerateOutput <- function(dat) {
 
 args <- commandArgs(T)
 
-tpm <- read.csv(file.path(args[1], "EXPR.csv"), row.names="TE")
+tpm <- read.csv(file.path(args[1], "EXPR.csv"), row.names="TE", check.names = FALSE)
 phenoData <- read.csv(file.path(args[1], "phenotype.csv"), 
                       row.names = "SampleID")
 annotation <- read.csv(file.path(args[1], "clades.csv"))

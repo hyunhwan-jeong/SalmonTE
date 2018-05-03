@@ -1,6 +1,8 @@
 ## Change Logs
 
-* January 23, 2017: Added references of *Mus musculus*(mm) and *Danio rerio*(dr), added a function users to allow to build a customized index (`index` mode), and fixed a minor bug.
+* May 3, 2018: Update README.txt
+* May 2, 2018: A bug fix regarding issue [#10](https://github.com/hyunhwaj/SalmonTE/issues/10)
+* January 23, 2018: Added references of *Mus musculus*(mm) and *Danio rerio*(dr), added a function users to allow to build a customized index (`index` mode), and fixed a minor bug.
 
 * December 25, 2017: Fixed a bug for single-end reads dataset.
 
@@ -94,11 +96,66 @@ Options:
 ```
 
 ## An real example of SalmonTE usage with command line 
+
+### Running the `quant` mode to collect TE expressions
+
+#### Parameters
+
+* `--reference`: This will select a reference file, and should the species **identifier** of your data. We are currently supporting references of those species.
+    * hs : *Homo Sapiens*
+    * mm : *Mus musculus*
+    * dm : *Drosophila melanogaster*
+    * dr : *Danio rerio*
+* `--outpath`: Path to generate quantification results. If you omit this, `SalmonTE_output` in the current path, and output will be stored in the path.
+* `--exprtype`: The type of expression measure, and **TPM** or **count** are possible options. If you omit this, then "TPM" is the input of the parameter.
+* `--num_threads`: This has to be an integer, and this parameter will configure how many threads will use for the parallization.
+
+After you put your parameters, you can put the directory which includes a list of **FASTQ** files, 
+
 ```
 SalmonTE.py quant --reference=hs example
-# Prior to run statistical analysis, open `phenotype.csv` and put your phenotype/covariate data.
-vi SalmonTE_output/phenotype.csv 
-SalmonTE.py test --inpath=SalmonTE_output --outpath=tmp --tabletype=csv --figtype=png
+```
+
+Or, you can put the list of files like below.
+
+```
+SalmonTE.py --reference=hs example/CTRL_1_R1.fastq.gz example/CTRL_2_R1.fastq.gz          
+```
+
+### Running `test` mode to perform statistical test
+
+Before you run test mode, you should modify `phenotype.csv` file which is stored in the `outpath`. Here are examples of the proper modifications:
+
+For the differential expression analysis, change the file as below. 
+**Important**: The control samples has to be labeled as `control`. Other labels will cause errors.
+
+```
+SampleID,phenotype
+FASTQ1,control
+FASTQ2,control
+FASTQ3,treatment
+FASTQ4,treatment
+```
+
+For the regression analysis, 
+
+```
+SampleID,phenotype
+FASTQ1,1.5
+FASTQ2,2.1
+FASTQ3,3.8
+FASTQ4,9.5
+```
+
+After the phenotype is ready, run the test mode like the example commnad-line below:
+
+`--inpath`: This should be the path which contains output of `quant` mode. 
+`--outpath`: This will be the path to store all outputs for the mode.
+`--tabletype`: The file format of the tables, `csv`, `tsv`, and `xls` are supported. If you omit this, then `xls` formatted file will be generated.
+`--tabletype`: The file format of the figures, `png`, `tiff`, `jpg`, and `pdf` are supported. If you omit this, then `pdf` formated files will be generated.
+
+```
+SalmonTE.py test --inpath=SalmonTE_output --outpath=SalmonTE_statistical_test --tabletype=csv --figtype=png
 ```
 
 ## How to Cite?

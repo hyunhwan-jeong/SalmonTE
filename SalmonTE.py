@@ -110,7 +110,7 @@ def collect_FASTQ_files(FILE):
             b = list(paired[file])[0]
             if a > b: continue
             trim_a = "_".join(get_basename_noext(a).split("_")[:-1]) + "_R1." + ".".join(os.path.basename(a).split('.')[1:])
-            trim_b = "_".join(get_basename_noext(b).split("_")[:-1]) + "_R2." + ".".join(os.path.basename(b).split('.')[1:])
+            trim_b = "_".join(get_basename_noext(a).split("_")[:-1]) + "_R2." + ".".join(os.path.basename(b).split('.')[1:])
             os.symlink(os.path.abspath(a), os.path.join(tmp_dir, trim_a))
             os.symlink(os.path.abspath(b), os.path.join(tmp_dir, trim_b))
             file_list.append([(trim_a, trim_b)])

@@ -1,5 +1,6 @@
 ## Change Logs
 
+* June 4, 2018: Now `SalmonTE` supports `fq` and `fq.gz` extensions.
 * May 3, 2018: Update README.txt
 * May 2, 2018: A bug fix regarding issue [#10](https://github.com/hyunhwaj/SalmonTE/issues/10)
 * January 23, 2018: Added references of *Mus musculus*(mm) and *Danio rerio*(dr), added a function users to allow to build a customized index (`index` mode), and fixed a minor bug.

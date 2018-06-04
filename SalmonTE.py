@@ -52,6 +52,9 @@ def get_first_readid(file_name):
             return inp.readline().replace("/"," ").split()[0]
 
 
+def correct_ext(ext):
+    return "fastq.gz" if "gz" in ext else "fastq"
+
 def collect_FASTQ_files(FILE):
     fastq_files = set()
     for file in FILE:
@@ -89,6 +92,8 @@ def collect_FASTQ_files(FILE):
         if len(paired[file]) == 0: is_paired = False
 
 
+    print(FILE)
+
     for file in paired:
         if is_paired and len(paired[file]) > 1:
             logging.error("One of input files can be paired to multiple files")
@@ -109,15 +114,16 @@ def collect_FASTQ_files(FILE):
             a = file
             b = list(paired[file])[0]
             if a > b: continue
-            trim_a = "_".join(get_basename_noext(a).split("_")[:-1]) + "_R1." + ".".join(os.path.basename(a).split('.')[1:])
-            trim_b = "_".join(get_basename_noext(a).split("_")[:-1]) + "_R2." + ".".join(os.path.basename(b).split('.')[1:])
+            trim_a = "_".join(get_basename_noext(a).split("_")[:-1]) + "_R1.{}".format(correct_ext(os.path.basename(a).split('.')[1:]))
+            trim_b = "_".join(get_basename_noext(a).split("_")[:-1]) + "_R2.{}".format(correct_ext(os.path.basename(b).split('.')[1:]))
+            print(trim_a, trim_b)
             os.symlink(os.path.abspath(a), os.path.join(tmp_dir, trim_a))
             os.symlink(os.path.abspath(b), os.path.join(tmp_dir, trim_b))
             file_list.append([(trim_a, trim_b)])
     else:
         for file in sorted(fastq_files):
             logging.info("The input dataset is considered as a single-end dataset.")
-            file_name = os.path.join(tmp_dir, get_basename_noext(file)) + "." + ".".join(os.path.basename(file).split('.')[1:])
+            file_name = os.path.join(tmp_dir, get_basename_noext(file)) + ".{}".format(correct_ext(os.path.basename(file).split('.')[1:]))
             os.symlink(os.path.abspath(file), file_name)
             file_list.append(os.path.basename(file))
 

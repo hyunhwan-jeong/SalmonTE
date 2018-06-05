@@ -1,3 +1,7 @@
+## Notice
+
+* June 5, 2018: Our recent paper about TE in Alzhimer's disease has been published in Cell Reports! Please read the paper to see how `SalmonTE` was succesfully applied! [(Cell Reports Link)](https://www.cell.com/action/showAbstract?pii=S2211-1247(18)30722-8)
+
 ## Change Logs
 
 * June 4, 2018: Now `SalmonTE` supports `fq` and `fq.gz` extensions.

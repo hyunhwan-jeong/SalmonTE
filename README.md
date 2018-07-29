@@ -124,7 +124,7 @@ SalmonTE.py quant --reference=hs example
 Or, you can put the list of files like below.
 
 ```
-SalmonTE.py --reference=hs example/CTRL_1_R1.fastq.gz example/CTRL_2_R1.fastq.gz          
+SalmonTE.py quant --reference=hs example/CTRL_1_R1.fastq.gz example/CTRL_2_R1.fastq.gz          
 ```
 
 ### Running `test` mode to perform statistical test

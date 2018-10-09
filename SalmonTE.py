@@ -35,7 +35,7 @@ def get_basename_noext(file_name):
 
 
 def get_ext(file_name):
-    return os.path.basename(".".join(file_name.split('.')[-1:]))
+    return ".".join(os.path.basename(file_name).split('.')[1:])
 
 
 def longest_prefix(a, b):

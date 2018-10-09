@@ -35,7 +35,7 @@ def get_basename_noext(file_name):
 
 
 def get_ext(file_name):
-    return os.path.basename(".".join(file_name.split('.')[1:]))
+    return os.path.basename(".".join(file_name.split('.')[-1:]))
 
 
 def longest_prefix(a, b):
@@ -92,7 +92,6 @@ def collect_FASTQ_files(FILE):
         if len(paired[file]) == 0: is_paired = False
 
 
-    print(FILE)
 
     for file in paired:
         if is_paired and len(paired[file]) > 1:
@@ -116,7 +115,6 @@ def collect_FASTQ_files(FILE):
             if a > b: continue
             trim_a = "_".join(get_basename_noext(a).split("_")[:-1]) + "_R1.{}".format(correct_ext(os.path.basename(a).split('.')[1:]))
             trim_b = "_".join(get_basename_noext(a).split("_")[:-1]) + "_R2.{}".format(correct_ext(os.path.basename(b).split('.')[1:]))
-            print(trim_a, trim_b)
             os.symlink(os.path.abspath(a), os.path.join(tmp_dir, trim_a))
             os.symlink(os.path.abspath(b), os.path.join(tmp_dir, trim_b))
             file_list.append([(trim_a, trim_b)])
@@ -191,7 +189,7 @@ def build_salmon_index(in_fasta, ref_id, te_only):
         oup_clade.write("name,class,clade\n")
         for line in inp:
             if line.startswith(">"):
-                name, anno = line[1:].strip().split("\t")[:-1]
+                name, anno = line[1:].strip().split("\t")[:2]
                 if anno in clade_dict:
                     clade, repeat_class = clade_dict[anno]
                     oup_fa.write(">{}\n".format(name))

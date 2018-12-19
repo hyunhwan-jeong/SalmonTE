@@ -150,8 +150,8 @@ def run_salmon(param):
 
     with open(os.path.join(param["--outpath"], "EXPR.csv" ), "r") as inp:
         sample_ids = inp.readline().strip().split(',')[1:]
-    with open(os.path.join(param["--outpath"], "phenotype.csv" ), "w") as oup:
-        oup.write("SampleID,phenotype\n")
+    with open(os.path.join(param["--outpath"], "condition.csv" ), "w") as oup:
+        oup.write("SampleID,condition\n")
         oup.write(
             "\n".join([s+","+"NA" for s in sample_ids]) + "\n"
         )

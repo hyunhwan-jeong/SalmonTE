@@ -1,5 +1,4 @@
 .snakemake/
-SalmonTE_output/
 .idea/
 packrat/lib*/
 .R*
@@ -8,3 +7,5 @@ reference/*/*.fa
 venv*/
 __pycache__/
 .idea/**
+.DS_Store
+SalmonTE_*/

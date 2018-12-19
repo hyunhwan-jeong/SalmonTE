@@ -69,6 +69,7 @@ rule collect_abundance:
         with open(str(output), "w") as oup:
             oup.write(pd.DataFrame(tb).to_csv(sep=",", index_label="TE"))
 
+
 rule collect_mappability:
     input:
         expand(join(OUTPUT_DIR,"{sample_fq}"), sample_fq = SAMPLES_FQ) +
@@ -81,12 +82,12 @@ rule collect_mappability:
             from collections import defaultdict
             with open(fname, "r") as inp:
                 data = json.load(inp)
-            return { "num_mapped": data["num_mapped"], "percent_mapped": data["percent_mapped"] }
-        tb = dict()
+            sid = file.split("/")[-3]
+            return { "SampleID" : sid, "num_mapped": data["num_mapped"], "percent_mapped": data["percent_mapped"] }
+        tb = []
         for file in input:
             file = join(file, "aux_info/meta_info.json")
-            sid = file.split("/")[-3]
-            tb[sid] = get_mappability(file) 
+            tb.append(get_mappability(file))
 
         import pandas as pd
         with open(str(output), "w") as oup:

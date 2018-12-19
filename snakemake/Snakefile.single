@@ -39,36 +39,6 @@ rule run_salmon_gz:
         SALMON_PATH + " quant -i {input.idx} -l A -r {input.r} -o {output} -p " + NUM_THREADS + " 2>/dev/null"
 
 
-rule collect_abundance:
-    input:
-        expand(join(OUTPUT_DIR,"{sample_fq}"), sample_fq = SAMPLES_FQ) +
-        expand(join(OUTPUT_DIR,"{sample_gz}"), sample_gz = SAMPLES_GZ) 
-
-    output:
-        join(OUTPUT_DIR,"EXPR.csv")
-    run:
-        def get_abundance(fname):
-            from collections import defaultdict
-            abundance = defaultdict( float )
-            with open(fname, "r") as inp:
-                line = inp.readline()
-                for line in inp:
-                    line = line.strip().split()
-                    name = line[0]
-                    abundance[name] += float(line[3]) if EXPR_TYPE is "TPM" else float(line[-1])
-
-            return abundance
-
-        tb = dict()
-        for file in input:
-            file = join(file, "quant.sf")
-            sid = file.split("/")[-2]
-            tb[sid] = get_abundance(file)
-
-        import pandas as pd
-        with open(str(output), "w") as oup:
-            oup.write(pd.DataFrame(tb).to_csv(sep=",", index_label="TE"))
-
 rule collect_mappability:
     input:
         expand(join(OUTPUT_DIR,"{sample_fq}"), sample_fq = SAMPLES_FQ) +
@@ -82,7 +52,11 @@ rule collect_mappability:
             with open(fname, "r") as inp:
                 data = json.load(inp)
             sid = file.split("/")[-3]
-            return { "SampleID" : sid, "num_mapped": data["num_mapped"], "percent_mapped": data["percent_mapped"] }
+            return { 
+                "SampleID" : sid, 
+                "num_mapped": data["num_mapped"], 
+                "num_processed" : data["num_processed"], 
+                "percent_mapped": data["percent_mapped"] }
         tb = []
         for file in input:
             file = join(file, "aux_info/meta_info.json")
@@ -90,4 +64,4 @@ rule collect_mappability:
 
         import pandas as pd
         with open(str(output), "w") as oup:
-            oup.write(pd.DataFrame(tb).to_csv(sep=",", index_label="SampleID"))
+            oup.write(pd.DataFrame(tb).set_index("SampleID").to_csv(sep=",", index_label="SampleID"))

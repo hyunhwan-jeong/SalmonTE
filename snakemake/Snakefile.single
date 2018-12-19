@@ -12,7 +12,8 @@ SAMPLES_GZ = glob_wildcards(join(INPUT_DIR, "{sample}.fastq.gz")).sample
 
 rule all:
     input:
-        join(OUTPUT_DIR,"EXPR.csv")
+        join(OUTPUT_DIR,"EXPR.csv"),
+        join(OUTPUT_DIR,"MAPPING_INFO.csv")
 
 rule run_salmon_fq:
     input:
@@ -20,10 +21,10 @@ rule run_salmon_fq:
         r = join(INPUT_DIR,"{sample_fq}.fastq")
     
     output:
-        join(OUTPUT_DIR,"{sample_fq}")
+        directory(join(OUTPUT_DIR,"{sample_fq}"))
 
     shell:
-        SALMON_PATH + " quant -i {input.idx} -l A -r {input.r} -o {output} -p " + NUM_THREADS
+        SALMON_PATH + " quant -i {input.idx} -l A -r {input.r} -o {output} -p " + NUM_THREADS + " 2>/dev/null"
 
 
 rule run_salmon_gz:
@@ -32,10 +33,10 @@ rule run_salmon_gz:
         r = join(INPUT_DIR,"{sample_gz}.fastq.gz")
     
     output:
-        join(OUTPUT_DIR,"{sample_gz}")
+        directory(join(OUTPUT_DIR,"{sample_gz}"))
 
     shell:
-        SALMON_PATH + " quant -i {input.idx} -l A -r {input.r} -o {output} -p " + NUM_THREADS
+        SALMON_PATH + " quant -i {input.idx} -l A -r {input.r} -o {output} -p " + NUM_THREADS + " 2>/dev/null"
 
 
 rule collect_abundance:
@@ -67,3 +68,26 @@ rule collect_abundance:
         import pandas as pd
         with open(str(output), "w") as oup:
             oup.write(pd.DataFrame(tb).to_csv(sep=",", index_label="TE"))
+
+rule collect_mappability:
+    input:
+        expand(join(OUTPUT_DIR,"{sample_fq}"), sample_fq = SAMPLES_FQ) +
+        expand(join(OUTPUT_DIR,"{sample_gz}"), sample_gz = SAMPLES_GZ) 
+    output:
+        join(OUTPUT_DIR,"MAPPING_INFO.csv")
+    run:
+        def get_mappability(fname):
+            import json
+            from collections import defaultdict
+            with open(fname, "r") as inp:
+                data = json.load(inp)
+            sid = file.split("/")[-3]
+            return { "SampleID" : sid, "num_mapped": data["num_mapped"], "percent_mapped": data["percent_mapped"] }
+        tb = []
+        for file in input:
+            file = join(file, "aux_info/meta_info.json")
+            tb.append(get_mappability(file))
+
+        import pandas as pd
+        with open(str(output), "w") as oup:
+            oup.write(pd.DataFrame(tb).to_csv(sep=",", index_label="SampleID"))

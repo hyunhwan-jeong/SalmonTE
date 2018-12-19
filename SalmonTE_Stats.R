@@ -37,11 +37,9 @@ write.figures <- function(dat) {
 do.deseq2 <- function(dat) {
   count <- dat$count
   col_data <- dat$col_data
-  print(col_data)
   dds <- DESeqDataSetFromMatrix(countData = round(count),
                                 colData = col_data,
                                 design = ~condition)
-  print(dds)
   dds <- dds[ rowSums(counts(dds)) > 1, ]
   dds <- DESeq(dds)
   res <- results(dds)
@@ -142,7 +140,7 @@ draw.MAplot <- function(dat) {
   dat$sheet.fmt <- sheet.fmt
   dat$path <- path
   dat$fig.fmt <- fig.fmt
-  dat$res <- left_join(dat$res, dat$annotation, by="name")
+  dat$res <- suppressWarnings(left_join(dat$res, dat$annotation, by="name"))
   nc <- ncol(dat$res)
   dat$res <- dat$res[, c(1, nc-1, nc, which(!(1:nc %in% c(1,nc-1,nc))))]
   

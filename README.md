@@ -165,12 +165,12 @@ FASTQ4,9.5
 
 After the phenotype is ready, run the test mode like the example commnad-line below:
 
-`--inpath`: This should be the path which contains output of `quant` mode. 
-`--outpath`: This will be the path to store all outputs for the mode.
-`--tabletype`: The file format of the tables, `csv`, `tsv`, and `xls` are supported. If you omit this, then `xls` formatted file will be generated.
-`--tabletype`: The file format of the figures, `png`, `tiff`, `jpg`, and `pdf` are supported. If you omit this, then `pdf` formated files will be generated.
-`--analysis_type`: The type of the analysis, and **DE** (for a differential analysis) or **LM** (for a linear regression analysis) are possible options. If you omit this, then "DE" is the input of the parameter.
-`--conditions`: The list of conditions will be considered when **DE** has been selected for `--analysis_type.` The input needs to contain two different conditions (written in non-white space characters) and each condition are separated by `,`, and **no white-space characters are not allowed for the input. i.e. `SalmonTE` does not care input such as `control , treatment`. The first condition of the input will be considered as a normal condition (e.g. healthy condition, wild-type mice) in the study, and the later will be considered as another condition which you are interested (e.g. knock-out mice, treatment).
+* `--inpath`: This should be the path which contains output of `quant` mode. 
+* `--outpath`: This will be the path to store all outputs for the mode.
+* `--tabletype`: The file format of the tables, `csv`, `tsv`, and `xls` are supported. If you omit this, then `xls` formatted file will be generated.
+* `--tabletype`: The file format of the figures, `png`, `tiff`, `jpg`, and `pdf` are supported. If you omit this, then `pdf` formated files will be generated.
+* `--analysis_type`: The type of the analysis, and **DE** (for a differential analysis) or **LM** (for a linear regression analysis) are possible options. If you omit this, then "DE" is the input of the parameter.
+* `--conditions`: The list of conditions will be considered when **DE** has been selected for `--analysis_type.` The input needs to contain two different conditions (written in non-white space characters) and each condition are separated by `,`, and **no white-space characters** are not allowed for the input. i.e. `SalmonTE` does not care input such as `control , treatment`. The first condition of the input will be considered as a normal condition (e.g. healthy condition, wild-type mice) in the study, and the later will be considered as another condition which you are interested (e.g. knock-out mice, treatment).
 
 ```
 SalmonTE.py test --inpath=SalmonTE_output --outpath=SalmonTE_statistical_test --tabletype=csv --figtype=png --analysis_type=DE --conditions=control,treatment

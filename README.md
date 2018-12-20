@@ -3,8 +3,8 @@
 ## Change Logs
 
 * December 19, 2018: `SalmonTE` has been updated to `0.4` with some improvements!
-  * Regarding #14, Now `SalmonTE` is coupled with the latest version of `snakemake`, so there is no more directory error. Furthermore, `SalmonTE` no longer runs with the older version of `snakemake`, please update the version of the `snakemake` package.
-  * Mappability for each file is now reported. (MAPPING_INFO.csv in the quantification output directory)
+  * Regarding [#14](https://github.com/hyunhwaj/SalmonTE/issues/14), now `SalmonTE` is coupled with the latest version of `snakemake`, so there is no more directory error. Furthermore, `SalmonTE` no longer runs with the older version of `snakemake`, please update the version of the `snakemake` package.
+  * Regarding [#22](https://github.com/hyunhwaj/SalmonTE/issues/22), mappability for each file is now reported. (MAPPING_INFO.csv in the quantification output directory)
   * `test` function has been improved, and this will give better representations of the data.
   * Running of `SalmonTE` will not produce massive and enigmatic messages anymore.
 

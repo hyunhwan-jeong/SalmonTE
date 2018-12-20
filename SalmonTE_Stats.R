@@ -3,8 +3,6 @@ suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(DESeq2))
 suppressPackageStartupMessages(library(scales))
 suppressPackageStartupMessages(library(WriteXLS))
-suppressPackageStartupMessages(library(ggforce))
-suppressPackageStartupMessages(library(ggsci))
 
 write.results <- function(dat) {
   res <- dat$res
@@ -92,7 +90,7 @@ do.summary <- function(dat) {
       geom_boxplot(width=0.5) + 
       geom_jitter(width=0.1, alpha=0.5) + theme(legend.position = "none") +
       geom_hline(yintercept = 0, color='red') +
-      xlab(group) + ylab(dat$y.name) + scale_fill_npg() + theme_minimal() + 
+      xlab(group) + ylab(dat$y.name) + theme_minimal() + 
       theme(text = element_text(size = 18)) +
       theme(legend.position = "none")
     return(list(table = tb, figure = fig))

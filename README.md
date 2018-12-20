@@ -1,12 +1,19 @@
-## Notice
-
-* June 5, 2018: Our recent paper about TE in Alzhimer's disease has been published in Cell Reports! Please read the paper to see how `SalmonTE` was succesfully applied! [(Cell Reports Link)](https://www.cell.com/action/showAbstract?pii=S2211-1247(18)30722-8)
+# SalmonTE
 
 ## Change Logs
 
+* December 19, 2018: `SalmonTE` has been updated to `0.4` with some improvements!
+  * Regarding #14, Now `SalmonTE` is coupled with the latest version of `snakemake`, so there is no more directory error. Furthermore, `SalmonTE` no longer runs with the older version of `snakemake`, please update the version of the `snakemake` package.
+  * Mappability for each file is now reported. (MAPPING_INFO.csv in the quantification output directory)
+  * `test` function has been improved, and this will give better representations of the data.
+  * Running of `SalmonTE` will not produce massive and enigmatic messages anymore.
+
 * June 4, 2018: Now `SalmonTE` supports `fq` and `fq.gz` extensions.
+
 * May 3, 2018: Update README.txt
+
 * May 2, 2018: A bug fix regarding issue [#10](https://github.com/hyunhwaj/SalmonTE/issues/10)
+
 * January 23, 2018: Added references of *Mus musculus*(mm) and *Danio rerio*(dr), added a function users to allow to build a customized index (`index` mode), and fixed a minor bug.
 
 * December 25, 2017: Fixed a bug for single-end reads dataset.
@@ -17,6 +24,11 @@
 * November 27, 2017: source code of PSB manuscript is out now - our [manuscript](https://github.com/hyunhwaj/SalmonTE-manuscript/) and [response letter](https://github.com/hyunhwaj/SalmonTE-response).
 
 * November 21, 2017: Version 0.2 is out, `SalmonTE` now supports two different type of expressions with `--exprtype` option. Use `--exprtype=TPM` if you want to use TPM values for the statistical analysis. If you want to run differential expression analysis, then I highly recommend to use `--exprtype=count`. [Here is the nice answer why](https://support.bioconductor.org/p/98820/).
+
+
+## Notice
+
+* June 5, 2018: Our recent paper about TE in Alzhimer's disease has been published in Cell Reports! Please read the paper to see how `SalmonTE` was succesfully applied! [(Cell Reports Link)](https://www.cell.com/action/showAbstract?pii=S2211-1247(18)30722-8)
 
 ## What is SalmonTE?
 `SalmonTE` is an ultra-Fast and Scalable Quantification Pipeline of Transpose Element (TE) Abundances from Next Generation Sequencing Data. It comes with [Salmon](https://github.com/COMBINE-lab/salmon) which is a fast and accurate transcriptome quantification method. You can read the details of the pipeline and an example of real data study in [my recent published paper in PSB 2018](http://www.worldscientific.com/doi/10.1142/9789813235533_0016).
@@ -44,9 +56,8 @@ For `R`:
 Run following lines in `R` console.
 
 ```
-install.packages(c("tidyverse", "cowplot", "scales", "WriteXLS"))
-source("https://bioconductor.org/biocLite.R")
-biocLite(c("DESeq2", "tximport"))
+install.packages(c("tidyverse", "scales", "WriteXLS", "BiocManager"))
+BiocManager::install("DESeq2", version = "3.8")
 ```
 
 
@@ -91,7 +102,7 @@ brew install tbb
 Usage:
     SalmonTE.py index [--ref_name=ref_name] (--input_fasta=fa_file) [--te_only]
     SalmonTE.py quant [--reference=genome] [--outpath=outpath] [--num_threads=numthreads] [--exprtype=exprtype] FILE...
-    SalmonTE.py test [--inpath=inpath] [--outpath=outpath] [--tabletype=tabletype] [--figtype=figtype]
+    SalmonTE.py test [--inpath=inpath] [--outpath=outpath] [--tabletype=tabletype] [--figtype=figtype] [--analysis_type=analysis_type] [--conditions=conditions]
     SalmonTE.py (-h | --help)
     SalmonTE.py --version
 
@@ -100,7 +111,7 @@ Options:
     --version     Show version.
 ```
 
-## An real example of SalmonTE usage with command line 
+## An example of SalmonTE usage with command line 
 
 ### Running the `quant` mode to collect TE expressions
 
@@ -129,13 +140,13 @@ SalmonTE.py quant --reference=hs example/CTRL_1_R1.fastq.gz example/CTRL_2_R1.fa
 
 ### Running `test` mode to perform statistical test
 
-Before you run test mode, you should modify `phenotype.csv` file which is stored in the `outpath`. Here are examples of the proper modifications:
+Before you run test mode, you should modify `control.csv` file which is stored in the `outpath`. Here are examples of the proper modifications:
 
 For the differential expression analysis, change the file as below. 
 **Important**: The control samples has to be labeled as `control`. Other labels will cause errors.
 
 ```
-SampleID,phenotype
+SampleID,control
 FASTQ1,control
 FASTQ2,control
 FASTQ3,treatment
@@ -145,7 +156,7 @@ FASTQ4,treatment
 For the regression analysis, 
 
 ```
-SampleID,phenotype
+SampleID,control
 FASTQ1,1.5
 FASTQ2,2.1
 FASTQ3,3.8
@@ -158,9 +169,11 @@ After the phenotype is ready, run the test mode like the example commnad-line be
 `--outpath`: This will be the path to store all outputs for the mode.
 `--tabletype`: The file format of the tables, `csv`, `tsv`, and `xls` are supported. If you omit this, then `xls` formatted file will be generated.
 `--tabletype`: The file format of the figures, `png`, `tiff`, `jpg`, and `pdf` are supported. If you omit this, then `pdf` formated files will be generated.
+`--analysis_type`: The type of the analysis, and **DE** (for a differential analysis) or **LM** (for a linear regression analysis) are possible options. If you omit this, then "DE" is the input of the parameter.
+`--conditions`: The list of conditions will be considered when **DE** has been selected for `--analysis_type.` The input needs to contain two different conditions (written in non-white space characters) and each condition are separated by `,`, and **no white-space characters are not allowed for the input. i.e. `SalmonTE` does not care input such as `control , treatment`. The first condition of the input will be considered as a normal condition (e.g. healthy condition, wild-type mice) in the study, and the later will be considered as another condition which you are interested (e.g. knock-out mice, treatment).
 
 ```
-SalmonTE.py test --inpath=SalmonTE_output --outpath=SalmonTE_statistical_test --tabletype=csv --figtype=png
+SalmonTE.py test --inpath=SalmonTE_output --outpath=SalmonTE_statistical_test --tabletype=csv --figtype=png --analysis_type=DE --conditions=control,treatment
 ```
 
 ## How to Cite?

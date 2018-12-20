@@ -33,9 +33,9 @@
 ## What is SalmonTE?
 `SalmonTE` is an ultra-Fast and Scalable Quantification Pipeline of Transpose Element (TE) Abundances from Next Generation Sequencing Data. It comes with [Salmon](https://github.com/COMBINE-lab/salmon) which is a fast and accurate transcriptome quantification method. You can read the details of the pipeline and an example of real data study in [my recent published paper in PSB 2018](http://www.worldscientific.com/doi/10.1142/9789813235533_0016).
 
-## Which data you need to run `SalmonTE`? Why I have to use it?
+## What I need to run `SalmonTE`? Why I have to use it?
 * You only need to have a set of FASTQ files and phenotype data. Furthermore, **`SalmonTE` automatically decided wether your dataset is paired-ends reads or not.** 
-* phenotype can be a numeric data or a categorical data. Based on the data type of the phenotype, **`SalmonTE` will run differential expression analysis if user's input contains 'control' or 'case' string as the phenotype**. Otherwise, `SalmonTE` will run `LM` for the data.
+* conditions can be a numeric data or a categorical data. Based on the data type of the conditions of each sample, `SalmonTE` will run differential expression analysis or linear regression.
 * Unlikely other TE analysis tools, `SalmonTE` gives you various visualized output. It must be helpful to your research.
 
 ## Requirements & Installation
@@ -163,7 +163,7 @@ FASTQ3,3.8
 FASTQ4,9.5
 ```
 
-After the phenotype is ready, run the test mode like the example commnad-line below:
+Once the conditions of every sample has been filled, we can run the test mode like the example commnad-line below:
 
 * `--inpath`: This should be the path which contains output of `quant` mode. 
 * `--outpath`: This will be the path to store all outputs for the mode.

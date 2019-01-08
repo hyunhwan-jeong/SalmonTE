@@ -31,12 +31,13 @@ def is_fastq(file_name):
 
 
 def get_basename_noext(file_name):
-    return os.path.basename(file_name.split('.')[0])
+    # return os.path.basename(file_name.split('.')[0])
+    return os.path.basename(file_name).split('.')[0]
 
 
 def get_ext(file_name):
+    # return ".".join(os.path.basename(file_name).split('.')[1:])
     return ".".join(os.path.basename(file_name).split('.')[1:])
-
 
 def longest_prefix(a, b):
     a, b = (b,a) if len(a) > len(b) else (a,b)

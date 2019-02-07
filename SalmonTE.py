@@ -120,8 +120,8 @@ def collect_FASTQ_files(FILE):
             os.symlink(os.path.abspath(b), os.path.join(tmp_dir, trim_b))
             file_list.append([(trim_a, trim_b)])
     else:
+        logging.info("The input dataset is considered as a single-end dataset.")
         for file in sorted(fastq_files):
-            logging.info("The input dataset is considered as a single-end dataset.")
             file_name = os.path.join(tmp_dir, get_basename_noext(file)) + ".{}".format(correct_ext(os.path.basename(file).split('.')[1:]))
             os.symlink(os.path.abspath(file), file_name)
             file_list.append(os.path.basename(file))

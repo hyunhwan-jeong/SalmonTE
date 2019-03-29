@@ -61,18 +61,21 @@ def collect_FASTQ_files(FILE):
     for file in FILE:
         collected_files = glob(file)
         if len(collected_files) == 0:
-            logging.error("Failed to read {}".format(file))
+            logging.error("Failed to read : '{}' is not existed.".format(file))
             sys.exit(1)
 
         elif len(collected_files) == 1 and not is_fastq(collected_files[0]):
+            logging.info("SalmonTE assumes that '{}' is a directory, and SalmonTE will search any FASTQ file in the directory.".format(collected_files[0]))
             collected_files = glob(collected_files[0]+"/*")
 
+        black_list = set()
         for col_file in collected_files:
             if not is_fastq(col_file):
-                logging.error("Failed to read {}".format(file))
-                sys.exit(1)
+                # logging.error("Failed to read : '{}' seems not to be a FASTQ file.".format(file))
+                logging.warn("SalmonTE found '{}' file, but this seems not to be a FASTQ file.".format(col_file))
+                black_list.add(col_file)
 
-        fastq_files |= set([os.path.abspath(file) for file in collected_files])
+        fastq_files |= set([os.path.abspath(file) for file in collected_files if file not in black_list])
 
     tmp_dir = tempfile.mkdtemp()
 

@@ -45,16 +45,24 @@ def longest_prefix(a, b):
 
 
 def get_first_readid(file_name):
+    first_line = ""
     if file_name.lower().endswith(".gz"):
         with gzip.open(file_name, "rb") as inp:
-            return inp.readline().decode("utf8").replace("/"," ").split()[0]
+            first_line = inp.readline().decode("utf8")
     else:
         with open(file_name, "r") as inp:
-            return inp.readline().replace("/"," ").split()[0]
+            first_line = inp.readline()
+
+    # In case of FASTQ file from SRA
+    if first_line.startswith("@SRR"):
+        return first_line.split()[1]
+    else:
+        return first_line.replace("/", " ").split()[0]
 
 
 def correct_ext(ext):
     return "fastq.gz" if "gz" in ext else "fastq"
+
 
 def collect_FASTQ_files(FILE):
     fastq_files = set()

@@ -21,10 +21,11 @@ rule run_salmon_fq:
         r1 = join(INPUT_DIR, "{sample_fq}_R1.fastq"),
         r2 = join(INPUT_DIR, "{sample_fq}_R2.fastq")
     output:
-        directory(join(OUTPUT_DIR,"{sample_fq}"))
+        dir = directory(join(OUTPUT_DIR,"{sample_fq}")),
+		sam = join(OUTPUT_DIR, "{sample_fq}.sam")
 
     shell:
-        SALMON_PATH + " quant -q -i {input.idx} -l A -1 {input.r1} -2 {input.r2} -o {output} -p " + NUM_THREADS + " 2>/dev/null"
+        SALMON_PATH + " quant -q -i {input.idx} -l A -1 {input.r1} -2 {input.r2} -o {output.dir} -p " + NUM_THREADS + " -z {output.sam} " + 2>/dev/null"
 
 
 rule run_salmon_gz:
@@ -33,10 +34,11 @@ rule run_salmon_gz:
         r1 = join(INPUT_DIR, "{sample_gz}_R1.fastq.gz"),
         r2 = join(INPUT_DIR, "{sample_gz}_R2.fastq.gz")
     output:
-        directory(join(OUTPUT_DIR,"{sample_gz}"))
+        dir = directory(join(OUTPUT_DIR,"{sample_gz}")),
+		sam = join(OUTPUT_DIR, "{sample_fq}.sam")
 
     shell:
-        SALMON_PATH + " quant -q -i {input.idx} -l A -1 {input.r1} -2 {input.r2} -o {output} -p " + NUM_THREADS + " 2>/dev/null"
+        SALMON_PATH + " quant -q -i {input.idx} -l A -1 {input.r1} -2 {input.r2} -o {output.dir} -p " + NUM_THREADS + " -z {output.sam} " + " 2>/dev/null"
 
 
 

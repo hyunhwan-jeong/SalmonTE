@@ -163,6 +163,9 @@ if(analysis == "DE" && !is.na(args[6])) {
 }
 count <- read.csv(file.path(args[1], "EXPR.csv"), row.names="TE", check.names = FALSE)
 col_data <- read.csv(file.path(args[1], "condition.csv"), row.names = "SampleID")
+col_data <- col_data[col_data$condition %in% condition_level,,drop=F]
+count <- count[,rownames(col_data)]
+
 annotation <- read.csv(file.path(args[1], "clades.csv"))
 message(sprintf("Step 3: Running the %s analysis...", analysis))
 dat <- SalmonTE(count, col_data, annotation, analysis, condition_level, args[2], args[3], args[4])

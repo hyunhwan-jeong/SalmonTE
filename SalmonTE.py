@@ -146,7 +146,8 @@ def run_salmon(param):
             "input_path": param["inpath"],
             "output_path": param["--outpath"],
             "index": param["--reference"],
-            "salmon": os.path.join(os.path.dirname(__file__),"salmon/{}/bin/salmon"),
+            # "salmon": os.path.join(os.path.dirname(__file__),"salmon/{}/bin/salmon"),
+            "salmon": os.path.join(os.path.dirname(__file__),"salmon-latest_linux_x86_64/bin/salmon"),
             "num_threads" : param["--num_threads"],
             "exprtype": param["--exprtype"],
         },
@@ -205,7 +206,8 @@ def build_salmon_index(in_fasta, ref_id, te_only):
                 if anno in clade_dict:
                     oup_fa.write(line.strip()+"\n")
 
-    salmon_bin = os.path.join(os.path.dirname(__file__), "salmon/{}/bin/salmon").format(sys.platform)
+    # salmon_bin = os.path.join(os.path.dirname(__file__), "salmon/{}/bin/salmon").format(sys.platform)
+    salmon_bin =  os.path.join(os.path.dirname(__file__),"salmon-latest_linux_x86_64/bin/salmon")
     cmd = "{} index -t {} -i {} --type=quasi".format(salmon_bin, file_fa, out_path)
     os.system(cmd)
     logging.info("Building '{}' index was finished!".format(ref_id))
@@ -229,7 +231,7 @@ def run(args):
 
         if args['--reference'].startswith("./"):
            args['--reference'] = args['--reference'][2:]
-           
+
         logging.info("Starting quantification mode")
         logging.info("Collecting FASTQ files...")
         param = {**args, **collect_FASTQ_files(args['FILE'])}
@@ -272,7 +274,7 @@ def run(args):
 
         if args['--conditions'] is None:
             args['--conditions'] = ""
-        
+
         #  Rscript SalmonTE_Stats.R SalmonTE_output xls PDF tmp
         os.system("Rscript {} {} {} {} {} {} {}".format( os.path.join(os.path.dirname(__file__), "SalmonTE_Stats.R"),
                                         args["--inpath"],

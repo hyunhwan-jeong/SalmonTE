@@ -194,16 +194,19 @@ def build_salmon_index(in_fasta, ref_id, te_only):
         oup_clade.write("name,class,clade\n")
         for line in inp:
             if line.startswith(">"):
-                name, anno = line[1:].strip().split("\t")[:2]
+                name, anno = line[1:].strip().split()[:2]
                 if anno in clade_dict:
                     clade, repeat_class = clade_dict[anno]
-                    oup_fa.write(">{}\n".format(name))
-                    oup_clade.write("{},{},{}\n".format(name,
-                                                       clade,
-                                                       repeat_class))
+                else: 
+                    clade = "other"
+                    repeat_class = "other"
+
+                oup_fa.write(">{}\n".format(name))
+                oup_clade.write("{},{},{}\n".format(name,
+                                                   clade,
+                                                   repeat_class))
             else:
-                if anno in clade_dict:
-                    oup_fa.write(line.strip()+"\n")
+                oup_fa.write(line.strip()+"\n")
 
     salmon_bin = os.path.join(os.path.dirname(__file__), "salmon/{}/bin/salmon").format(sys.platform)
     cmd = "{} index -t {} -i {} --type=quasi".format(salmon_bin, file_fa, out_path)

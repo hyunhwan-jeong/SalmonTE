@@ -38,7 +38,7 @@ do.deseq2 <- function(dat) {
   dds <- DESeqDataSetFromMatrix(countData = round(count),
                                 colData = col_data,
                                 design = ~condition)
-  dds <- dds[ rowSums(counts(dds)) > 1, ]
+  dds <- dds[ rowSums(counts(dds)) > 10, ]
   dds <- DESeq(dds)
   res <- results(dds)
   df_res <- data.frame(res)
@@ -115,10 +115,10 @@ draw.MAplot <- function(dat) {
     theme(legend.position = "none", text = element_text(size = 18))  + theme_minimal())
 }
 
- SalmonTE <- function(count, col_data, annotation,
-                      analysis,
-                      condition_level,
-                      sheet.fmt = "csv", fig.fmt = "pdf", path = ".") {
+SalmonTE <- function(count, col_data, annotation,
+                     analysis,
+                     condition_level,
+                     sheet.fmt = "csv", fig.fmt = "pdf", path = ".") {
   dat <- list(
     count = count, 
     col_data = col_data

@@ -140,7 +140,7 @@ SalmonTE.py quant --reference=hs example/CTRL_1_R1.fastq.gz example/CTRL_2_R1.fa
 
 ### Running `test` mode to perform statistical test
 
-Before you run test mode, you should modify `control.csv` file which is stored in the `outpath`. Here are examples of the proper modifications:
+Before you run test mode, you should modify <strike>`control.csv`</strike> `condition.csv` file which is stored in the `outpath`. Here are examples of the proper modifications:
 
 For the differential expression analysis, change the file as below. 
 **Important**: The control samples has to be labeled as `control`. Other labels will cause errors.

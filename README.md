@@ -146,7 +146,7 @@ For the differential expression analysis, change the file as below.
 **Important**: The control samples has to be labeled as `control`. Other labels will cause errors.
 
 ```
-SampleID,control
+SampleID,condition
 FASTQ1,control
 FASTQ2,control
 FASTQ3,treatment
@@ -156,7 +156,7 @@ FASTQ4,treatment
 For the regression analysis, 
 
 ```
-SampleID,control
+SampleID,condition
 FASTQ1,1.5
 FASTQ2,2.1
 FASTQ3,3.8

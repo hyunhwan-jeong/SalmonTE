@@ -150,7 +150,8 @@ def run_salmon(param):
             "num_threads" : param["--num_threads"],
             "exprtype": param["--exprtype"],
         },
-        quiet=True
+        quiet=True,
+        lock=False
     )
 
     with open(os.path.join(param["--outpath"], "EXPR.csv" ), "r") as inp:

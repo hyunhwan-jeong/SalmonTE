@@ -55,7 +55,7 @@ rule collect_abundance:
                 for line in inp:
                     line = line.strip().split()
                     name = line[0]
-                    abundance[name] += float(line[3]) if EXPR_TYPE is "TPM" else float(line[-1])
+                    abundance[name] += float(line[3]) if EXPR_TYPE == "TPM" else float(line[-1])
 
             return abundance
 
